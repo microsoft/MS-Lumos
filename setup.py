@@ -24,7 +24,7 @@ setup(
     version='1.0.0',
     description="Tools to compare metrics between datasets, accounting for population differences "
                 "and invariant features.",
-    long_description=readme + '\n\n' + history,
+    long_description=readme + '\n\n',
     author="Jamie Pool, Ashkan Aazami, Ebrahim Beyrami, Jay Gupchup, Martin Ellis",
     author_email='',
     url='https://github.com/microsoft/MS-MCT',
