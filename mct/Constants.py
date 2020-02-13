@@ -41,8 +41,12 @@ results_dir = "results_dir"
 add_is_null_column = 'add_null'
 resample_threshold = 'resample_threshold'
 decomposition_type = 'decomposition_type'
+num_bins_numerical = 'num_bins_numerical'
+num_bins_categorical = 'num_bins_categorical'
+caliper_coefficient = 'caliper_coefficient'
 required_config_keys = [metric_column, invariant_columns, feature_columns, resample_threshold, results_dir,
                         p_value_threshold, decomposition_type, normalization_type, sort_type, add_is_null_column,
+                        num_bins_categorical, num_bins_numerical, caliper_coefficient,
                         'apply_feature_target_metric_dependence_test']
 
 log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'

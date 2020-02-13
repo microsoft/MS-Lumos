@@ -10,8 +10,37 @@ import pandas as pd
 
 import mct.Constants as Constants
 
-
 # Class to create a visualization of the result of the comparison
+
+_index_ = """<!DOCTYPE html>
+<html>
+<body>
+<section>
+    <h2>Initial Metric Comparison:</h2>
+    <iframe src=".\\initial_metric_comparison.html" frameBorder="0" height="100%" style="width:100%;height:100px"></iframe>
+</section>
+<section>
+    <h2>Top Level Bias Check:</h2>
+    <iframe src=".\\bias_results.html" frameBorder="0" height="100%" style="width:100%;height:200px"></iframe>
+</section>
+<section>
+    <h2>Detailed Bias Check:</h2>
+    <iframe src=".\\bias_deviations.html" frameBorder="0" height="100%" style="width:100%;height:400px"></iframe>
+</section>
+<section>
+    <h2>Normalized Metric Comparison (adjusting for biases):</h2>
+    <iframe src=".\\normalized_metric_comparison.html" frameBorder="0" height="100%" style="width:100%;height:100px"></iframe>
+</section>
+<section>
+    <h2>Features Explaining Metric Difference:</h2>
+    <iframe src=".\\feature_ranking.html" frameBorder="0" height="100%" style="width:100%;height:300px"></iframe>
+</section>
+<section>
+    <h2>Debug:</h2>
+    <iframe src="" frameBorder="0" height="100%" style="width:100%;height:20px"></iframe>
+</section>
+</body>
+</html> """
 
 
 class Visualizer(object):
@@ -22,7 +51,14 @@ class Visualizer(object):
     def __init__(self, config: json):
         self.config = config
         self.__logger = logging.getLogger("mct")
+        self.__create_index_file()
         return
+
+    def __create_index_file(self):
+        results_dir = self.config[Constants.results_dir]
+        index_html = os.path.join(results_dir, "index.html")
+        with open(index_html,mode='w') as index:
+            index.write(_index_)
 
     def create_metric_delta_report(self, metric_delta: pd.DataFrame, result_file: str):
         # Output metric_delta as HTML.
@@ -68,7 +104,9 @@ class Visualizer(object):
         deviation[deviation_result_columns].to_html(deviation_file, index=False, justify='center', index_names=False)
 
     def create_feature_rank_report(self, ranked_feature: pd.DataFrame):
-        feature_ranking_file_csv = os.path.join(self.config[Constants.results_dir], "feature_ranking.csv")
+        results_dir = self.config[Constants.results_dir]
+        feature_ranking_file_csv = os.path.join(results_dir, "feature_ranking.csv")
+        feature_ranking_file_html = os.path.join(results_dir, "feature_ranking.html")
         sorted_feature = ranked_feature.sort_values(
             by=[Constants.hazard_score, Constants.percent_delta, Constants.count_delta, Constants.feature,
                 Constants.expected_failures],
@@ -76,3 +114,4 @@ class Visualizer(object):
 
         sorted_feature.reset_index(inplace=True, drop=True)
         sorted_feature.to_csv(feature_ranking_file_csv)
+        sorted_feature.to_html(feature_ranking_file_html)

@@ -66,6 +66,7 @@ class FeatureBinGenerator(object):
 
         :returns: Transformed pandas dataframe
         """
+
         dummy_frames = []
 
         num_cols = [col for col in num_cols if col in df.columns]

@@ -158,12 +158,13 @@ class BiasTester(object):
 
         return index_c, index_t
 
-    def __matching_caliper(self, df, caliper_coeff=0.1, random_state=None):
+    def __matching_caliper(self, df,  random_state=None):
+        caliper_coeff=self.config[Constants.caliper_coefficient]
         caliper_width = caliper_coeff * df[self.__rf_propensity_scores].std()
         df[self.__rf_propensity_scores] = (df[self.__rf_propensity_scores] / caliper_width).astype(int)
         return self.___matching_1_1(df, random_state=random_state)
 
-    def __sample_propensity(self, splits, feats, caliper_coeff=0.1, match_type='caliper', random_state=None):
+    def __sample_propensity(self, splits, feats, match_type='caliper', random_state=None):
         # concatenates the split dataframes, keeping the labels
 
         df = pd.concat([i for _, i in splits], keys=[splits[0][0], splits[1][0]],
@@ -181,7 +182,7 @@ class BiasTester(object):
 
         # Perform 1-1 matching based on the propensity scores.
         if match_type == 'caliper':
-            ind_c, ind_t = self.__matching_caliper(df, caliper_coeff=caliper_coeff, random_state=random_state)
+            ind_c, ind_t = self.__matching_caliper(df, random_state=random_state)
         else:
             ind_c, ind_t = self.___matching_1_1(df, random_state=random_state)
 

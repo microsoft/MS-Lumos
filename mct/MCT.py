@@ -47,7 +47,6 @@ class MCT(object):
 
         if is_biased and (self.__config[Constants.normalization_type] != Constants.skip):
             n_control, n_treatment = bias_tester.normalize_bias(control, treatment, bias_results, random_state)
-
             df_metric = n_control.append(n_treatment)
 
             b_metric_delta = delta_comparer.compare(n_control, n_treatment)
