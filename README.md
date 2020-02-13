@@ -1,3 +1,14 @@
+# Lumos
+Lumos is a library to compare metrics between two datasets, accounting for population differences and invariant features.
+
+# Install
+You can install latest release of Lumos directly from source:
+```
+pip install git+https://github.com/microsoft/MS-Lumos
+```
+
+# Examples
+Please refer to the [**examples**](examples) folder.
 
 # Contributing
 
