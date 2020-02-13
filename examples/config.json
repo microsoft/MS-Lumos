@@ -1,0 +1,24 @@
+{
+  "results_dir": ".\\",
+  "p_value": 0.01,
+  "resample_threshold": 1,
+  "small_bin_percent_threshold": 1.0,
+  "num_bins_categorical": 10,
+  "num_bins_numerical": 10,
+  "caliper_coefficient": 0.1,
+  "apply_feature_target_metric_dependence_test": true,
+  "decomposition_type": "univar",
+  "normalization_type": "rf",
+  "sort_type": "hazard_score",
+  "add_null": true,
+  "metric_col": "target_metric",
+  "invariant_columns": [
+    "country",
+    "platform",
+    "client_version",
+    "media",
+	"city",
+	"network"
+  ],
+  "feature_columns": []
+}
