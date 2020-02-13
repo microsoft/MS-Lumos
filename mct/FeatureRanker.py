@@ -134,7 +134,7 @@ class FeatureRanker(object):
             config[Constants.invariant_columns],
             target_col,
             min_data_points=1,
-            max_categories=10,
+            max_categories=config[Constants.num_bins_categorical],
             p_thresh=0.25,
             add_null=add_null,
             apply_feature_target_metric_dependence_test=self.__config['apply_feature_target_metric_dependence_test'])
@@ -217,7 +217,8 @@ class FeatureRanker(object):
         and returning significance and contributions.
         """
         df_target_col = df_uni_var_norm[[target_col, group_col, col]]
-        df_bin_col = self.__bin_generator.create_percentile_bins(df_target_col.copy(), [col], num_bins=10,
+        df_bin_col = self.__bin_generator.create_percentile_bins(df_target_col.copy(), [col], 
+                                                                 num_bins=self.__config[Constants.num_bins_numerical],
                                                                  add_null=add_null)
         binned_feats = [feat for feat in df_bin_col.columns if col in feat]
 
@@ -238,7 +239,8 @@ class FeatureRanker(object):
 
         # contribution on the non-normalized data set
         df_target_col = df_uni_var_un_norm[[target_col, group_col, col]]
-        df_bin_col = self.__bin_generator.create_percentile_bins(df_target_col.copy(), [col], num_bins=10,
+        df_bin_col = self.__bin_generator.create_percentile_bins(df_target_col.copy(), [col], 
+                                                                 num_bins=self.__config[Constants.num_bins_numerical],
                                                                  add_null=add_null)
         binned_feats = [feat for feat in df_bin_col.columns if col in feat]
 

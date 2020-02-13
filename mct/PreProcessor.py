@@ -36,7 +36,7 @@ class PreProcessor(object):
 
         # Partition columns into target, invariant and variant features
         df = Utils.merge_control_treatment(control_df, treatment_df)
-        df_feature_target, df_invariant_columns, df_metric_columns, feature_columns = self.__partition_columns(df)
+        df_feature_target, df_invariant, df_metric_group, feature_columns = self.__partition_columns(df)
         self.__validate_data_set(df)
 
         # Encode Categorical features - remove ones with 0 variation, or with no impact to the metric.
@@ -48,11 +48,11 @@ class PreProcessor(object):
             add_null=self.__config[Constants.add_is_null_column],
             p_thresh=0.25,
             min_data_points=1,
-            max_categories=10,
+            max_categories=self.__config[Constants.num_bins_categorical],
             apply_feature_target_metric_dependence_test=self.__config['apply_feature_target_metric_dependence_test'])
 
         # Drop target metric column
-        df_metric = self.__merge_columns(df_feature_target_binned, df_invariant_columns, df_metric_columns)
+        df_metric = self.__merge_columns(df_feature_target_binned, df_invariant, df_metric_group)
 
         return df_metric, num_cols
 
@@ -72,7 +72,7 @@ class PreProcessor(object):
     def __partition_columns(self, df):
         # Set the metric columns: contains the metric column and Constants.group_column_name column
         metric_column = self.__config[Constants.metric_column]
-        df_metric_columns = df[[Constants.group_column_name, metric_column]]
+        df_metric_group = df[[Constants.group_column_name, metric_column]]
         # Set invariant columns.
         invariant_columns = self.__get_available_features(df, self.__config[Constants.invariant_columns])
         df[invariant_columns] = df[invariant_columns].astype('object')
@@ -83,10 +83,10 @@ class PreProcessor(object):
         df_feature_columns = df[feature_columns]
         # Merge features and metric column.
         df_feature_target = df_feature_columns.merge(
-            pd.DataFrame(df_metric_columns[metric_column]),
+            pd.DataFrame(df_metric_group[metric_column]),
             left_index=True,
             right_index=True)
-        return df_feature_target, df_invariant, df_metric_columns, feature_columns
+        return df_feature_target, df_invariant, df_metric_group, feature_columns
 
     def __validate_config(self):
         config = self.__config
