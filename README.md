@@ -1,5 +1,14 @@
 # Lumos
-Lumos is a library to compare metrics between two datasets, accounting for population differences and invariant features.
+Lumos is a library to compare metrics between two datasets, accounting for population differences and invariant features. Lumos is described in this technical [paper](https://arxiv.org/pdf/2006.12793.pdf):
+
+```
+  @inproceedings{Pool2020,
+	title="Lumos: A Library for Diagnosing Metric Regressions in Web-Scale Applications",
+	author="Jamie Pool, Ebrahim Beyrami, Vishak Gopal, Ashkan Aazami, Jayant Gupchup, Jeff Rowland, Binlong Li, Pritesh Kanani, Ross Cutler, Johannes Gehrke",
+	booktitle="Proceedings of the ACM SIGKDD International Conference on Knowledge Discovery and Data Mining",
+	year="2020"
+}
+```
 
 # Install
 You can install latest release of Lumos directly from source:
